@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cstring>
 #include <fstream>
 #include <map>
@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
     char buff[512];
 
     string path;
+    string name_file;
+
     vector<string> buffer;
     vector<string> cryp_buff;
     ifstream fot;
@@ -54,7 +56,9 @@ int main(int argc, char *argv[])
             cout << path << " : No such file or directory" << endl;
             return 1;
         }
-        while (fot)
+
+
+          while (fot)
             {
             fot.getline(buff, 512);
             buffer.push_back(buff);
@@ -62,26 +66,34 @@ int main(int argc, char *argv[])
 
     fot.close();
 
+
 //home/pasquda/Downloads/lab.txt
 
 
         for(auto i = 0; i < buffer.size(); i++)
         {
-            cryp_buff.push_back(crypto(buffer[i]));
+            cryp_buff.push_back(crypto(buffer[i]) + '\n');
 
         }
 
-    cout << "File: " << path << "\nHas been encoded succsessful!" << endl;
-
-    ofstream inp("encoded_resume.txt");
-
+        cout << "File: " << path << "\nHas been encoded succsessful!" << endl << endl << "=============================" << endl << endl;
+        cout << "Enter path and name of TXT file: ";
+        cin >> name_file;
+    ofstream inp(name_file);
+    if(!inp)
+    {
+        cout << name_file << " : No such file or directory" << endl;
+        return 1;
+    }
         for(auto it = cryp_buff.begin(); it != cryp_buff.end(); it++)
         {
             inp << *it;
         }
 
-
+    system("reset");
+    cout << "Succsessful!" << endl;
     inp.close();
 
     return 0;
 }
+
